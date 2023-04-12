@@ -1,0 +1,12 @@
+spring:
+ redis:
+  host: redis
+  port: 6379
+ data:
+  mongodb:
+   authentication-database: admin
+   username: user
+   password: password
+   database: miniautorizador
+   port: 27017
+   host: localhost
