@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -22,5 +20,15 @@ public class Card {
 
   private Double saldo;
   private String senha;
+
+  public Double credito(Double valor){
+    this.saldo += valor;
+    return saldo;
+  }
+
+  public Double debito(Double valor){
+    this.saldo -= valor;
+    return saldo;
+  }
 
 }

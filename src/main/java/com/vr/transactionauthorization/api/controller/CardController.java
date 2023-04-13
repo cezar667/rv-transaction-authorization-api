@@ -3,6 +3,7 @@ package com.vr.transactionauthorization.api.controller;
 import com.vr.transactionauthorization.api.dto.CardDto;
 import com.vr.transactionauthorization.api.model.Card;
 import com.vr.transactionauthorization.api.service.CardService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,15 +27,15 @@ public class CardController {
   }
 
   @ResponseStatus(code = HttpStatus.CREATED)
-  @PostMapping
-  public Card cadastrarCartao(@RequestBody CardDto cardDto){
+  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public Card cadastrarCartao(@RequestBody @Valid CardDto cardDto){
     return cardService.createCard(cardDto);
   }
 
   @ResponseStatus(code = HttpStatus.OK)
   @GetMapping(value = "/{numeroCartao}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Card buscarCartao(@PathVariable String numeroCartao){
-    return cardService.getCard(numeroCartao);
+  public Double buscarSaldo(@PathVariable String numeroCartao){
+    return cardService.getCard(numeroCartao).getSaldo();
   }
 
 }
