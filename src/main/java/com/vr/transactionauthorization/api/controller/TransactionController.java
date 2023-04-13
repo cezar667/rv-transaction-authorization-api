@@ -18,14 +18,13 @@ public class TransactionController {
   private final TransactionService transactionService;
 
   @Autowired
-  public TransactionController(TransactionService transactionService){
+  public TransactionController(TransactionService transactionService) {
     this.transactionService = transactionService;
   }
 
   @ResponseStatus(code = HttpStatus.OK)
   @PostMapping
-  public void efeturarTransacao(@RequestBody @Valid TransactionDto transactionDto){
+  public void efeturarTransacao(@RequestBody @Valid TransactionDto transactionDto) {
     transactionService.efetuarTransacao(transactionDto);
   }
-
 }

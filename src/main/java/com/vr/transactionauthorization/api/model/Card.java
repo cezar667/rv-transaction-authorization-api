@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Setter
 @AllArgsConstructor
 @Builder
-
 @Document(collection = "rv_card")
 public class Card {
 
@@ -21,14 +20,13 @@ public class Card {
   private Double saldo;
   private String senha;
 
-  public Double credito(Double valor){
+  public Double credito(Double valor) {
     this.saldo += valor;
     return saldo;
   }
 
-  public Double debito(Double valor){
+  public Double debito(Double valor) {
     this.saldo -= valor;
     return saldo;
   }
-
 }

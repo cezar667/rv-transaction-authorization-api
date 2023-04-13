@@ -26,8 +26,10 @@ public class TransactionService {
 
   public void efetuarTransacao(TransactionDto transactionDto) {
 
-    //Verifica se Cartão está em transação
-    boolean inOperation = Optional.ofNullable(redisTemplate.opsForValue().get(transactionDto.getNumeroCartao())).isPresent();
+    // Verifica se Cartão está em transação
+    boolean inOperation =
+        Optional.ofNullable(redisTemplate.opsForValue().get(transactionDto.getNumeroCartao()))
+            .isPresent();
 
     while (inOperation) {
       try {
@@ -36,27 +38,28 @@ public class TransactionService {
         e.printStackTrace();
         Thread.currentThread().interrupt();
       }
-      inOperation = Optional.ofNullable(redisTemplate.opsForValue().get(transactionDto.getNumeroCartao())).isPresent();
+      inOperation =
+          Optional.ofNullable(redisTemplate.opsForValue().get(transactionDto.getNumeroCartao()))
+              .isPresent();
     }
-    try{
+    try {
       Card card = cardService.getCard(transactionDto.getNumeroCartao());
 
-      //Verifica se transação pode se autorizada
+      // Verifica se transação pode se autorizada
       verifyCardForTransaction(transactionDto.getSenha(), transactionDto.getValor(), card);
 
-      //Insere trava no cartão
+      // Insere trava no cartão
       redisTemplate.opsForValue().set(card.getNumeroCartao(), true, Duration.ofSeconds(10));
 
       card.debito(transactionDto.getValor());
       cardService.updateCard(card);
 
-      //Remover trava do cartão
+      // Remover trava do cartão
       redisTemplate.opsForValue().getAndDelete(card.getNumeroCartao());
 
-    } catch (CardNotFoundException e){
+    } catch (CardNotFoundException e) {
       throw new CardUnauthorizedException("CARTAO_INEXISTENTE");
     }
-
   }
 
   public void verifyCardForTransaction(String senha, Double valor, Card card) {
@@ -64,9 +67,8 @@ public class TransactionService {
         .filter(Boolean::booleanValue)
         .orElseThrow(() -> new CardUnauthorizedException("SENHA_INVALIDA"));
 
-    Optional.of(card.getSaldo()-valor)
+    Optional.of(card.getSaldo() - valor)
         .filter(saldo -> saldo >= 0)
         .orElseThrow(() -> new CardUnauthorizedException("SALDO_INSUFICIENTE"));
-
   }
 }

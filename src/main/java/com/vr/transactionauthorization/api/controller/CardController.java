@@ -21,20 +21,19 @@ public class CardController {
   private final CardService cardService;
 
   @Autowired
-  public CardController(CardService cardService){
+  public CardController(CardService cardService) {
     this.cardService = cardService;
   }
 
   @ResponseStatus(code = HttpStatus.CREATED)
   @PostMapping
-  public Card cadastrarCartao(@RequestBody @Valid CardDto cardDto){
+  public Card cadastrarCartao(@RequestBody @Valid CardDto cardDto) {
     return cardService.createCard(cardDto);
   }
 
   @ResponseStatus(code = HttpStatus.OK)
   @GetMapping(value = "/{numeroCartao}")
-  public Double buscarSaldo(@PathVariable String numeroCartao){
+  public Double buscarSaldo(@PathVariable String numeroCartao) {
     return cardService.getCard(numeroCartao).getSaldo();
   }
-
 }

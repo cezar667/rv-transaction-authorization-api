@@ -23,7 +23,4 @@ public class CardExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleCardUnauthorizedException(CardUnauthorizedException ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
   }
-
-
 }
-

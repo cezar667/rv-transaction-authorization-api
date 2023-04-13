@@ -12,19 +12,17 @@ public class RedisConfig {
 
   @Bean
   @Primary
-  public LettuceConnectionFactory redisConnectionFactory(){
+  public LettuceConnectionFactory redisConnectionFactory() {
     return new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
   }
 
   @Bean
   @Primary
-  public RedisTemplate<String, Object> redisTemplate(){
+  public RedisTemplate<String, Object> redisTemplate() {
 
     RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory());
 
     return redisTemplate;
   }
-
-
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.springframework.context.annotation.Description;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -45,6 +46,7 @@ class CardServiceTest {
   }
 
   @Test
+  @Description("Testa o método createCard do CardService, verificando se o cartão é criado corretamente, com número de cartão, senha e saldo definidos corretamente e que a inserção é realizada no repositório.")
   void testCreateCard() {
 
     Mockito.when(cardRepository.insert(Mockito.any(Card.class))).thenReturn(card);
@@ -60,6 +62,7 @@ class CardServiceTest {
   }
 
   @Test
+  @Description("Testa o método createCard do CardService, verificando se é lançada uma exceção de CardDuplicateKeyException caso já exista um cartão com o número de cartão informado, e que a inserção é realizada no repositório.")
   void testCreateCardDuplicateKeyException() {
 
     Mockito.when(cardRepository.insert(Mockito.any(Card.class)))
@@ -77,6 +80,7 @@ class CardServiceTest {
   }
 
   @Test
+  @Description("Testa o método getCard do CardService, verificando se o cartão é retornado corretamente do repositório, com número de cartão, senha e saldo definidos corretamente.")
   void testGetCard() {
     String numeroCartao = NUMERO_CARTAO;
 
@@ -93,6 +97,7 @@ class CardServiceTest {
   }
 
   @Test
+  @Description("Testa o método getCard do CardService, verificando se é lançada uma exceção de CardNotFoundException caso o cartão não seja encontrado no repositório.")
   void testGetCardNotFoundException() {
     Mockito.when(cardRepository.findById(NUMERO_CARTAO))
         .thenReturn(Optional.empty());
@@ -109,6 +114,7 @@ class CardServiceTest {
   }
 
   @Test
+  @Description("Testa o método updateCard do CardService, verificando se o cartão é atualizado corretamente no repositório.")
   void testUpdateCard() {
 
     cardService.updateCard(card);

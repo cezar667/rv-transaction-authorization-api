@@ -24,24 +24,23 @@ public class CardService {
   public Card createCard(CardDto cardDto) {
     try {
       String senhaCriptografada = BCrypt.hashpw(cardDto.getSenha(), BCrypt.gensalt());
-      return cardRepository.insert(Card.builder()
-          .numeroCartao(cardDto.getNumeroCartao())
-          .senha(senhaCriptografada)
-          .saldo(SALDO_INICIAL)
-          .build());
+      return cardRepository.insert(
+          Card.builder()
+              .numeroCartao(cardDto.getNumeroCartao())
+              .senha(senhaCriptografada)
+              .saldo(SALDO_INICIAL)
+              .build());
     } catch (DuplicateKeyException e) {
-        throw new CardDuplicateKeyException("Erro ao tentar inserir. Este cartão ja existe: " + cardDto.toString());
+      throw new CardDuplicateKeyException(
+          "Erro ao tentar inserir. Este cartão ja existe: " + cardDto);
     }
   }
 
   public Card getCard(String numeroCartao) {
-    return cardRepository
-        .findById(numeroCartao)
-        .orElseThrow(() -> new CardNotFoundException(""));
+    return cardRepository.findById(numeroCartao).orElseThrow(() -> new CardNotFoundException(""));
   }
 
-  public void updateCard(Card card){
+  public void updateCard(Card card) {
     cardRepository.save(card);
   }
-
 }
