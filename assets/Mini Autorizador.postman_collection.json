@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "f8344811-5191-4345-b46c-7066bee2a119",
+		"name": "Mini Autorizador",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12045967"
+	},
+	"item": [
+		{
+			"name": "Cadastrar Cartão",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numeroCartao\": \"6549873025634511\",\r\n    \"senha\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/cartoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cartoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Saldo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/cartoes/6549873025634511",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cartoes",
+						"6549873025634511"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Efetuar Transação",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numeroCartao\": \"65498730256345111\",\r\n    \"senha\": \"1234\",\r\n    \"valor\": \"1.00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transacoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transacoes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
