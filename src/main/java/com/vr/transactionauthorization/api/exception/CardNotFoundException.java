@@ -5,7 +5,4 @@ public class CardNotFoundException extends RuntimeException {
     super(message);
   }
 
-  public CardNotFoundException(String message, Throwable cause) {
-    super(message, cause);
-  }
 }

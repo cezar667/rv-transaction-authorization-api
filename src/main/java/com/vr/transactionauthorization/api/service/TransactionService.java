@@ -38,20 +38,25 @@ public class TransactionService {
       }
       inOperation = Optional.ofNullable(redisTemplate.opsForValue().get(transactionDto.getNumeroCartao())).isPresent();
     }
+    try{
+      Card card = cardService.getCard(transactionDto.getNumeroCartao());
 
-    Card card = cardService.getCard(transactionDto.getNumeroCartao());
+      //Verifica se transação pode se autorizada
+      verifyCardForTransaction(transactionDto.getSenha(), transactionDto.getValor(), card);
 
-    //Verifica se transação pode se autorizada
-    verifyCardForTransaction(transactionDto.getSenha(), transactionDto.getValor(), card);
+      //Insere trava no cartão
+      redisTemplate.opsForValue().set(card.getNumeroCartao(), true, Duration.ofSeconds(10));
 
-    //Insere trava no cartão
-    redisTemplate.opsForValue().set(card.getNumeroCartao(), true, Duration.ofSeconds(10));
+      card.debito(transactionDto.getValor());
+      cardService.updateCard(card);
 
-    card.debito(transactionDto.getValor());
-    cardService.updateCard(card);
+      //Remover trava do cartão
+      redisTemplate.opsForValue().getAndDelete(card.getNumeroCartao());
 
-    //Remover trava do cartão
-    redisTemplate.opsForValue().getAndDelete(card.getNumeroCartao());
+    } catch (CardNotFoundException e){
+      throw new CardUnauthorizedException("CARTAO_INEXISTENTE");
+    }
+
   }
 
   public void verifyCardForTransaction(String senha, Double valor, Card card) {
@@ -61,7 +66,7 @@ public class TransactionService {
 
     Optional.of(card.getSaldo()-valor)
         .filter(saldo -> saldo >= 0)
-        .orElseThrow(() -> new CardNotFoundException("SALDO_INSUFICIENTE"));
+        .orElseThrow(() -> new CardUnauthorizedException("SALDO_INSUFICIENTE"));
 
   }
 }

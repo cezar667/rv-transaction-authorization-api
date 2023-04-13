@@ -6,7 +6,6 @@ import com.vr.transactionauthorization.api.service.CardService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,13 +26,13 @@ public class CardController {
   }
 
   @ResponseStatus(code = HttpStatus.CREATED)
-  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping
   public Card cadastrarCartao(@RequestBody @Valid CardDto cardDto){
     return cardService.createCard(cardDto);
   }
 
   @ResponseStatus(code = HttpStatus.OK)
-  @GetMapping(value = "/{numeroCartao}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/{numeroCartao}")
   public Double buscarSaldo(@PathVariable String numeroCartao){
     return cardService.getCard(numeroCartao).getSaldo();
   }

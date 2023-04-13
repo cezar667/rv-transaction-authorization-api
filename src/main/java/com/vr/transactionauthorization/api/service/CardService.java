@@ -37,7 +37,7 @@ public class CardService {
   public Card getCard(String numeroCartao) {
     return cardRepository
         .findById(numeroCartao)
-        .orElseThrow(() -> new CardNotFoundException("CARTAO_INEXISTENTE"));
+        .orElseThrow(() -> new CardNotFoundException(""));
   }
 
   public void updateCard(Card card){
